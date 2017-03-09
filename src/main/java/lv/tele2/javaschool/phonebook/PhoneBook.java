@@ -2,6 +2,7 @@ package lv.tele2.javaschool.phonebook;
 
 import asg.cliche.Command;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,7 +10,9 @@ import java.util.Scanner;
 /**
  * Created by jevgkras on 07-Mar-17.
  */
-public class PhoneBook {
+public class PhoneBook implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private List<Record> recordList = new ArrayList<>();
 
     @Command
