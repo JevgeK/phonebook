@@ -1,12 +1,10 @@
 package lv.tele2.javaschool.phonebook;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jevgkras on 07-Mar-17.
- */
 public class Record implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -58,6 +56,12 @@ public class Record implements Serializable {
 
     public void delPhone(String phone) {
         this.phoneList.remove(phone);
+    }
+
+    private void readObject(java.io.ObjectInputStream in)
+        throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        nextId = Math.max(id + 1, nextId);
     }
 
     @Override

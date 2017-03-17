@@ -5,9 +5,6 @@ import asg.cliche.example.HelloWorld;
 
 import java.io.*;
 
-/**
- * Created by jevgkras on 07-Mar-17.
- */
 public class Main {
     public static void main(String[] args) {
         try {
@@ -26,20 +23,24 @@ public class Main {
         }
     }
 
-    private static PhoneBook readPhoneBook(File file) throws Exception {
-        FileInputStream fis = new FileInputStream(file);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        PhoneBook result = (PhoneBook) ois.readObject();
-        ois.close();
-        fis.close();
-        return result;
+    private static PhoneBook readPhoneBook(File file) {
+        try (FileInputStream fis = new FileInputStream(file);
+             ObjectInputStream ois = new ObjectInputStream(fis)
+        ) {
+            return (PhoneBook) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error reading file. Creating new phone book");
+            return new PhoneBook();
+        }
     }
 
-    private static void savePhoneBook(File file, PhoneBook phoneBook) throws Exception {
-        FileOutputStream fos = new FileOutputStream(file);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(phoneBook);
-        oos.close();
-        fos.close();
+    private static void savePhoneBook(File file, PhoneBook phoneBook) {
+        try (FileOutputStream fos = new FileOutputStream(file);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)
+        ) {
+            oos.writeObject(phoneBook);
+        } catch (IOException e) {
+            System.out.println("Error saving file. Phone book was not saved");
+        }
     }
 }
